@@ -29,7 +29,7 @@ class UserController extends Controller
                     'open_id' => 'required',
                     'name' => 'required',
                     'email' => 'required|email|unique:users,email',
-                    //        'password' => 'required'
+                    "password" => 'required|min:6'
                 ]
             );
 
@@ -65,9 +65,9 @@ class UserController extends Controller
                 $userID = User::insertGetId($validated);
                 //user's all the information
                 $userInfo = User::where('id', '=', $userID)->first();
-              
+
                 $accessToken = $userInfo->createToken(uniqid())->plainTextToken;
-              
+
                 $userInfo->access_token = $accessToken;
                 return response()->json([
                     'status' => true,
@@ -78,9 +78,9 @@ class UserController extends Controller
 
             $accessToken = $user->createToken(uniqid())->plainTextToken;
             $user->access_token = $accessToken;
-         //   User::where('open_id', '=', $validated['open_id'])->update(['access_token'=>$accessToken]);
+            //   User::where('open_id', '=', $validated['open_id'])->update(['access_token'=>$accessToken]);
 
-          
+
             return response()->json([
                 'status' => true,
                 'message' => 'User logged in Successfully',
