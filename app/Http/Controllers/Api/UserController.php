@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -64,7 +64,7 @@ class UserController extends Controller
                 // returns the id of the row after saving
                 $userID = User::insertGetId($validated);
                 //user's all the information
-                $userInfo = User::where('id', '=', $userID);
+                $userInfo = User::where('id', '=', $userID)->first();
               
                 $accessToken = $userInfo->createToken(uniqid())->plainTextToken;
               
@@ -76,16 +76,15 @@ class UserController extends Controller
                 ], 200);
             }
 
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password)
-            ]);
+            $accessToken = $user->createToken(uniqid())->plainTextToken;
+            $user->access_token = $accessToken;
+         //   User::where('open_id', '=', $validated['open_id'])->update(['access_token'=>$accessToken]);
 
+          
             return response()->json([
                 'status' => true,
-                'message' => 'User Created Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                'message' => 'User logged in Successfully',
+                'token' => $user
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
