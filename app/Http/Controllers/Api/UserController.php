@@ -58,9 +58,12 @@ class UserController extends Controller
                 // this certain user has never been in our database
                 // our job is to assign the user in the database
                 // this token is user id
-                $validated["token"] = md5(uniqid() . rand(10000, 99999));
+                $validated["token"] = md5(uniqid().rand(10000, 99999));
                 //user first time created
                 $validated["created_at"] = Carbon::now();
+                //encript password
+                $validated["password"] = Hash::make($validated["password"]);
+
                 // returns the id of the row after saving
                 $userID = User::insertGetId($validated);
                 //user's all the information
@@ -69,6 +72,8 @@ class UserController extends Controller
                 $accessToken = $userInfo->createToken(uniqid())->plainTextToken;
 
                 $userInfo->access_token = $accessToken;
+                User::where('id', '=', $userID)->update(['access_token'=>$accessToken]);
+
                 return response()->json([
                     'status' => true,
                     'message' => 'User Created Successfully',
@@ -78,7 +83,7 @@ class UserController extends Controller
 
             $accessToken = $user->createToken(uniqid())->plainTextToken;
             $user->access_token = $accessToken;
-            //   User::where('open_id', '=', $validated['open_id'])->update(['access_token'=>$accessToken]);
+               User::where('open_id', '=', $validated['open_id'])->update(['access_token'=>$accessToken]);
 
 
             return response()->json([
