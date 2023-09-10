@@ -28,7 +28,7 @@ class UserController extends Controller
                     'type' => 'required',
                     'open_id' => 'required',
                     'name' => 'required',
-                    'email' => 'required|email|unique:users,email',
+                    'email' => 'required',
                     "password" => 'required|min:6'
                 ]
             );
@@ -58,7 +58,7 @@ class UserController extends Controller
                 // this certain user has never been in our database
                 // our job is to assign the user in the database
                 // this token is user id
-                $validated["token"] = md5(uniqid().rand(10000, 99999));
+                $validated["token"] = md5(uniqid() . rand(10000, 99999));
                 //user first time created
                 $validated["created_at"] = Carbon::now();
                 //encript password
@@ -72,7 +72,7 @@ class UserController extends Controller
                 $accessToken = $userInfo->createToken(uniqid())->plainTextToken;
 
                 $userInfo->access_token = $accessToken;
-                User::where('id', '=', $userID)->update(['access_token'=>$accessToken]);
+                User::where('id', '=', $userID)->update(['access_token' => $accessToken]);
 
                 return response()->json([
                     'status' => true,
@@ -80,10 +80,10 @@ class UserController extends Controller
                     'data' => $userInfo
                 ], 200);
             }
-
+            //user previously has logged in
             $accessToken = $user->createToken(uniqid())->plainTextToken;
             $user->access_token = $accessToken;
-               User::where('open_id', '=', $validated['open_id'])->update(['access_token'=>$accessToken]);
+            User::where('open_id', '=', $validated['open_id'])->update(['access_token' => $accessToken]);
 
 
             return response()->json([
