@@ -18,11 +18,7 @@ class UserController extends Controller
      * @return User
      */
     public function login(Request $request)
-    {    return response()->json([
-        'status' => true,
-        'message' => 'User logged in Successfully',
-        'token' => 'random token'
-    ], 200);
+    {   
         try {
             //Validated
             $validateUser = Validator::make(
@@ -33,7 +29,7 @@ class UserController extends Controller
                     'open_id' => 'required',
                     'name' => 'required',
                     'email' => 'required',
-                    "password" => 'required|min:6'
+               //     "password" => 'required|min:6'
                 ]
             );
 
@@ -66,7 +62,7 @@ class UserController extends Controller
                 //user first time created
                 $validated["created_at"] = Carbon::now();
                 //encript password
-                $validated["password"] = Hash::make($validated["password"]);
+              //  $validated["password"] = Hash::make($validated["password"]);
 
                 // returns the id of the row after saving
                 $userID = User::insertGetId($validated);
@@ -79,8 +75,8 @@ class UserController extends Controller
                 User::where('id', '=', $userID)->update(['access_token' => $accessToken]);
 
                 return response()->json([
-                    'status' => true,
-                    'message' => 'User Created Successfully',
+                    'code' => 200,
+                    'msg' => 'User Created Successfully',
                     'data' => $userInfo
                 ], 200);
             }
@@ -91,9 +87,9 @@ class UserController extends Controller
 
 
             return response()->json([
-                'status' => true,
-                'message' => 'User logged in Successfully',
-                'token' => $user
+                'code' => 200,
+                'msg' => 'User logged in Successfully',
+                'data' => $user
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
