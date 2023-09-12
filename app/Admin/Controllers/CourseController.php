@@ -16,13 +16,14 @@ use Encore\Admin\Layout\Content;
 class CourseController extends AdminController
 {
 
-    protected function grid(){
+    protected function grid()
+    {
         $grid = new Grid(new Course());
         return $grid;
     }
-     protected function detail($id)
+    protected function detail($id)
     {
-        $show = new Show( Course::findOrFail($id));
+        $show = new Show(Course::findOrFail($id));
 
         $show->field('id', __('Id'));
         $show->field('title', __('Category'));
@@ -43,6 +44,7 @@ class CourseController extends AdminController
     {
         $form = new Form(new Course());
         $form->text('name', __('Name'));
+        //get our categories
         $result = CourseType::pluck('title', 'id');
         $form->select('type_id', __('Category'))->options($result);
         $form->image('thumbnail', __('Thumbnail'))->uniqueName();
@@ -58,5 +60,4 @@ class CourseController extends AdminController
         $form->display('updated_at', __('Updated at'));
         return $form;
     }
-
 }
