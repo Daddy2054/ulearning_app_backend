@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('course_types', function (Blueprint $table) {
             $table->id();
+            $table->string('title',50);
+            $table->text('description')->nullable();
+            $table->mediumInteger('parent_id')->nullable();
+            $table->mediumInteger('order')->nullable();
             $table->timestamps();
         });
     }
