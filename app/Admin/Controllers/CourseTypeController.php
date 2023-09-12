@@ -35,4 +35,14 @@ class CourseTypeController extends AdminController
         return $show;
     }
 
+    protected function form()
+    {
+        $form = new Form(new CourseType());
+        $form->select('parent_id', __('Parent category'))->options((new CourseType())::selectOptions());
+        $form->text('title', __('Title'));
+        $form->textarea('description', __('Description'));
+        $form->number('order', __('Order'));
+
+        return $form;
+    }
 }
