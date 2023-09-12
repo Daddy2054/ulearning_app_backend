@@ -12,14 +12,16 @@ use Encore\Admin\Layout\Content;
 
 class CourseTypeController extends AdminController
 {
-    public function index(Content $content){
+    // actually for showing tree form of the menus
+    public function index(Content $content)
+    {
         $tree = new Tree(new CourseType);
         return $content->header('Course Types')->body($tree);
     }
-
-     protected function detail($id)
+    // for view
+    protected function detail($id)
     {
-        $show = new Show( CourseType::findOrFail($id));
+        $show = new Show(CourseType::findOrFail($id));
 
         $show->field('id', __('Id'));
         $show->field('title', __('Category'));
@@ -34,14 +36,16 @@ class CourseTypeController extends AdminController
         $show->disableFilter();
         return $show;
     }
-
+    //creating and editing
     protected function form()
     {
         $form = new Form(new CourseType());
+
         $form->select('parent_id', __('Parent category'))->options((new CourseType())::selectOptions());
-        $form->text('title', __('Title'));
-        $form->textarea('description', __('Description'));
-        $form->number('order', __('Order'));
+
+        $form->text('title', __('Title')); //text is similar to string in laravel
+        $form->textarea('description', __('Description')); //textarea is similar to text
+        $form->number('order', __('Order')); //number is similar to int
 
         return $form;
     }

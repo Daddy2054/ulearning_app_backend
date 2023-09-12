@@ -11,7 +11,7 @@ use Encore\Admin\Show;
 class UserController extends AdminController
 {
     protected $title ='Members';
-
+// grid method is just to show rows
     protected function grid()
     {
         $grid = new Grid(new User());
@@ -21,10 +21,10 @@ class UserController extends AdminController
         $grid->column('email', __('Email'));
 
         $grid->column('created_at', __('Created at'));
-        $grid->disableActions();
-        $grid->disableCreateButton();
-        $grid->disableExport();
-        $grid->disableFilter();
+        // $grid->disableActions();
+        // $grid->disableCreateButton();
+        // $grid->disableExport();
+        // $grid->disableFilter();
         return $grid;
     }
 
