@@ -1,4 +1,5 @@
 <?php
+// php artisan admin:make TestController --model=App\\Models\\Course
 
 namespace App\Admin\Controllers;
 
@@ -18,20 +19,25 @@ class CourseController extends AdminController
 
     protected function grid()
     {
-        $grid = new Grid(new User());
+        $grid = new Grid(new Course());
 
         $grid->column('id', __('Id'));
-        $grid->column('token', __('Token'));
+        $grid->column('user_token', __('Teachers'))->display(
+            function($token){
+                //value function returns a specific field from the match
+               return User::where('token', '=', $token)->value('name');
+            }
+        );
         $grid->column('name', __('Name'));
-        $grid->column('email', __('Email'));
-        $grid->column('email_verified_at', __('Email verified at'));
-        $grid->column('avatar', __('Avatar'));
-        $grid->column('type', __('Type'));
-        $grid->column('open_id', __('Open id'));
-        $grid->column('access_token', __('Access token'));
-        $grid->column('deleted_at', __('Deleted at'));
-        $grid->column('phone', __('Phone'));
-        $grid->column('remember_token', __('Remember token'));
+        $grid->column('thumbnail', __('Thumbnail'));
+        $grid->column('video', __('Video'));
+        $grid->column('description', __('Description'));
+        $grid->column('type_id', __('Type id'));
+        $grid->column('price', __('Price'));
+        $grid->column('lesson_num', __('Lesson num'));
+        $grid->column('video_length', __('Video length'));
+        $grid->column('follow', __('Follow'));
+        $grid->column('score', __('Score'));
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
 
@@ -46,25 +52,26 @@ class CourseController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(User::findOrFail($id));
+        $show = new Show(Course::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('token', __('Token'));
+        $show->field('user_token', __('User token'));
         $show->field('name', __('Name'));
-        $show->field('email', __('Email'));
-        $show->field('email_verified_at', __('Email verified at'));
-        $show->field('avatar', __('Avatar'));
-        $show->field('type', __('Type'));
-        $show->field('open_id', __('Open id'));
-        $show->field('access_token', __('Access token'));
-        $show->field('deleted_at', __('Deleted at'));
-        $show->field('phone', __('Phone'));
-        $show->field('remember_token', __('Remember token'));
+        $show->field('thumbnail', __('Thumbnail'));
+        $show->field('video', __('Video'));
+        $show->field('description', __('Description'));
+        $show->field('type_id', __('Type id'));
+        $show->field('price', __('Price'));
+        $show->field('lesson_num', __('Lesson num'));
+        $show->field('video_length', __('Video length'));
+        $show->field('follow', __('Follow'));
+        $show->field('score', __('Score'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
         return $show;
     }
+
 
 
     protected function form()
