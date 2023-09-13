@@ -55,7 +55,7 @@ class CourseController extends AdminController
         $form->image('thumbnail', __('Thumbnail'))->uniqueName();
         //file is used for video and other format like pdf/doc
         $form->file('video', __('Video'))->uniqueName();
-        $form->text('title', __('Title'));
+       // $form->text('title', __('Title'));
         $form->text('description', __('Description'));
         //decimal method helps with retrieving float format 
         //from the database
