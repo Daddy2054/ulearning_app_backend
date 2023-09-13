@@ -48,17 +48,21 @@ class CourseController extends AdminController
         //key value pair
         //last one is the key
 
-        $result = CourseType::pluck('id','title');
+        $result = CourseType::pluck('title','id');
         //select method helps you select one of the options that
         //comes from result variable
         $form->select('type_id', __('Category'))->options($result);
         $form->image('thumbnail', __('Thumbnail'))->uniqueName();
+        //file is used for video and other format like pdf/doc
         $form->file('video', __('Video'))->uniqueName();
         $form->text('title', __('Title'));
         $form->text('description', __('Description'));
+        //decimal method helps with retrieving float format 
+        //from the database
         $form->decimal('price', __('Price'));
         $form->number('lesson_num', __('Lesson number'));
         $form->number('video_length', __('Video length'));
+        //for the posting. who is posting
         $result = User::pluck('name', 'token');
         $form->select('user_token', __('Teacher'))->options($result);
         $form->display('created_at', __('Created at'));
