@@ -1,21 +1,36 @@
 <?php
+//cli command: 
+//app_backend$ php artisan admin:make TestController --model=App\\Models\\User
+
+// INFO  App\Admin\Controllers\TestController [app/Admin/Controllers/TestController.php] created successfully.  
+
+
+// Add the following route to app/Admin/routes.php:
+
+//  $router->resource('users', TestController::class);
 
 namespace App\Admin\Controllers;
 
-use App\Models\CourseType;
-use App\Models\Course;
 use App\Models\User;
-
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
-use Encore\Admin\Tree;
-use Encore\Admin\Layout\Content;
 
-class CourseController extends AdminController
+class TestController extends AdminController
 {
+    /**
+     * Title for current resource.
+     *
+     * @var string
+     */
+    protected $title = 'User';
 
+    /**
+     * Make a grid builder.
+     *
+     * @return Grid
+     */
     protected function grid()
     {
         $grid = new Grid(new User());
@@ -66,34 +81,26 @@ class CourseController extends AdminController
         return $show;
     }
 
-
+    /**
+     * Make a form builder.
+     *
+     * @return Form
+     */
     protected function form()
     {
-        $form = new Form(new Course());
-        $form->text('name', __('Name'));
-        //get our categories
-        //key value pair
-        //last one is the key
+        $form = new Form(new User());
 
-        $result = CourseType::pluck('title','id');
-        //select method helps you select one of the options that
-        //comes from result variable
-        $form->select('type_id', __('Category'))->options($result);
-        $form->image('thumbnail', __('Thumbnail'))->uniqueName();
-        //file is used for video and other format like pdf/doc
-        $form->file('video', __('Video'))->uniqueName();
-       // $form->text('title', __('Title'));
-        $form->text('description', __('Description'));
-        //decimal method helps with retrieving float format 
-        //from the database
-        $form->decimal('price', __('Price'));
-        $form->number('lesson_num', __('Lesson number'));
-        $form->number('video_length', __('Video length'));
-        //for the posting. who is posting
-        $result = User::pluck('name', 'token');
-        $form->select('user_token', __('Teacher'))->options($result);
-        $form->display('created_at', __('Created at'));
-        $form->display('updated_at', __('Updated at'));
+        $form->text('token', __('Token'));
+        $form->text('name', __('Name'));
+        $form->email('email', __('Email'));
+        $form->datetime('email_verified_at', __('Email verified at'))->default(date('Y-m-d H:i:s'));
+        $form->image('avatar', __('Avatar'));
+        $form->number('type', __('Type'));
+        $form->text('open_id', __('Open id'));
+        $form->text('access_token', __('Access token'));
+        $form->mobile('phone', __('Phone'));
+        $form->text('remember_token', __('Remember token'));
+
         return $form;
     }
 }
