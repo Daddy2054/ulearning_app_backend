@@ -20,6 +20,17 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('/login', 'UserController@login');
     Route::group(['middleware' => 'auth:sanctum'], function () {
 
-        Route::any('/courseList', [CourseController::class, 'courseList']);
+        Route::any('/courseList', 'CourseController@courseList');
     });
 });
+
+//testing
+//GET http://192.168.0.149:8000/api/courseList
+//provide access token in auth header
+
+//response:
+// {
+//     "code": 200,
+//     "msg": "My course list is here",
+//     "data": "My data is here"
+//   }
