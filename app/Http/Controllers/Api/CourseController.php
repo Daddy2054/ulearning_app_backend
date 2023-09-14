@@ -8,8 +8,9 @@ use App\Models\Course;
 
 class CourseController extends Controller
 {
-    //course list
+    //return all courses list
     public function courseList(){
+        //select the fields
         $result = Course::select('name', 'thumbnail', 'lesson_num', 'price', 'id')->get();
 
         return response()->json([
