@@ -13,16 +13,13 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::group(['namespace'=>'Api'], function(){
 
-    //Route::post('/login', [UserController::class, 'login']);
+Route::group(['namespace' => 'Api'], function () {
+
+    // Route::post('/login', 'UserController@createUser');
     Route::post('/login', 'UserController@login');
-    Route::group(['middleware'=>'auth:sanctum'], function(){
+    Route::group(['middleware' => 'auth:sanctum'], function () {
 
         Route::any('/courseList', [CourseController::class, 'courseList']);
     });
 });
-
-
-
-
