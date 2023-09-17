@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
             $table->smallInteger('course_id');
             $table->string('name');
-            $table->string('description')->nullable();
             $table->string('thumbnail');
-            $table->string('video')->nullable();
+            $table->text('description')->nullable();
+            $table->json('video')->nullable();
             $table->timestamps();
         });
     }
-    // php artisan make:migration create_lessons_table
-    // php artisan migrate
+
+
     /**
      * Reverse the migrations.
      */
