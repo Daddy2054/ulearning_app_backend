@@ -20,8 +20,10 @@ class Lesson extends Model
             'a'=>'val1',
             'b'=>'val2',
             .....
+            {
             'a':'val1',
             'b':'val2',
+            }
         */
 
         $this->attributes['video'] = json_encode(array_values($value));

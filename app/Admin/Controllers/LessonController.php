@@ -34,7 +34,7 @@ class LessonController extends AdminController
             return $item;
         });
         $grid->column('name', __('Name'));
-        $grid->column('thumbnail', __('Thumbnail'))->image(50, 50);
+        $grid->column('thumbnail', __('Thumbnail'))->image('',50, 50);
         $grid->column('description', __('Description'));
 
         $grid->column('created_at', __('Created at'));
