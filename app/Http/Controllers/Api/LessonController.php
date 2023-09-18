@@ -45,4 +45,40 @@ class LessonController extends Controller
             //throw $th;
         }
     }
+
+      //this is for our lesson detail for a particular course
+      // check: http://localhost:8000/api/lessonDetail?id=1
+      public function lessonDetail(Request $request)
+      {
+          $id = $request->id;
+          try {
+  
+              $result = Lesson::where('id', '=', $id)->select(
+                 
+                  'name',
+                  'description',
+                  'thumbnail',
+                  'video',
+              )->get();
+              return response()->json(
+                  [
+                      'code' => 200,
+                      'msg' => 'My lesson detail is here',
+                      'data' => $result,
+                  ],
+                  200
+              );
+          } catch (\Throwable $e) {
+              return response()->json(
+                  [
+                      'code' => 500,
+                      'msg' => 'Server internal error',
+                      'data' => $e->getMessage()
+  
+                  ],
+                  500
+              );
+              //throw $th;
+          }
+      }
 }
